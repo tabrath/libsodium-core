@@ -1,0 +1,37 @@
+parameters:
+  configuration: ""
+  framework: ""
+  platform: ""
+  collectCoverage: true
+  codecovToken: ""
+
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: Test ${{ parameters.framework }}
+    inputs:
+      command: test
+      projects: "test/**/*.csproj"
+      arguments: "--configuration ${{ parameters.configuration }} --framework ${{ parameters.framework }} --no-build --results-directory $(Build.SourcesDirectory)/TestResults/${{ parameters.framework }} --logger trx /p:CollectCoverage=${{ parameters.collectCoverage }} /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/${{ parameters.framework }}/coverage"
+      publishTestResults: false
+
+  - task: PublishTestResults@2
+    displayName: Publish ${{ parameters.framework }} test results
+    inputs:
+      testResultsFormat: VSTest
+      testResultsFiles: $(Build.SourcesDirectory)/TestResults/${{ parameters.framework }}/*.trx
+      mergeTestResults: true
+      testRunTitle: ${{ parameters.framework }}/${{ parameters.platform }}
+    condition: succeeded()
+
+  - task: PublishCodeCoverageResults@1
+    displayName: Publish ${{ parameters.framework }} coverage results
+    inputs:
+      codeCoverageTool: "cobertura"
+      summaryFileLocation: "$(Build.SourcesDirectory)/TestResults/${{ parameters.framework }}/coverage.cobertura.xml"
+    condition: and(succeeded(), eq('${{ parameters.collectCoverage }}', 'true'))
+
+  - bash: bash <(curl -s https://codecov.io/bash)
+    displayName: Upload code coverage to CodeCov
+    env:
+      CODECOV_TOKEN: ${{ parameters.codecovToken }}
+    condition: and(succeeded(), eq('${{ parameters.collectCoverage }}', 'true'))
