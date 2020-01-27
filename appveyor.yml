@@ -61,7 +61,7 @@ after_build:
 test: off
 
 test_script:
-  - dotnet test --configuration Debug --framework netcoreapp2.0 --logger trx;logfilename=TestResult.xml --results-directory "%APPVEYOR_BUILD_FOLDER%\test\Sodium.Tests\TestResults" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover %APPVEYOR_BUILD_FOLDER%\test\Sodium.Tests\Sodium.Tests.csproj
+  - dotnet test --configuration Debug --framework netcoreapp2.1 --logger trx;logfilename=TestResult.xml --results-directory "%APPVEYOR_BUILD_FOLDER%\test\Sodium.Tests\TestResults" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover %APPVEYOR_BUILD_FOLDER%\test\Sodium.Tests\Sodium.Tests.csproj
 
 after_test:
   - ps: |

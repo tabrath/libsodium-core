@@ -9,10 +9,23 @@ matrix:
       sudo: false
       dotnet: 2.2
       mono: none
+      env: DOTNET_VERSION=netcoreapp2.1
+    - os: linux
+      dist: xenial
+      sudo: false
+      dotnet: 3.1
+      mono: none
+      env: DOTNET_VERSION=netcoreapp3.1
     - os: osx
-      osx_image: xcode9
+      osx_image: xcode11.3
       dotnet: 2.1.300
       mono: none
+      env: DOTNET_VERSION=netcoreapp2.1
+    - os: osx
+      osx_image: xcode11.3
+      dotnet: 3.1.100
+      mono: none
+      env: DOTNET_VERSION=netcoreapp3.1
 
 notifications:
   email:
@@ -31,8 +44,8 @@ before_install:
   - git config --global core.autocrlf input
   - ulimit -n 1024
 
-install:
-  - dotnet restore --disable-parallel -r $TRAVIS_OS_NAME-x64
+#install:
+#  - dotnet restore --disable-parallel -r $TRAVIS_OS_NAME-x64
 
 script:
-  - dotnet test test/Sodium.Tests/Sodium.Tests.csproj -f netcoreapp2.0
+  - dotnet test test/Sodium.Tests/Sodium.Tests.csproj --framework $DOTNET_VERSION
