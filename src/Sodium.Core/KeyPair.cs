@@ -1,5 +1,4 @@
-﻿
-/* Unmerged change from project 'Sodium.Core (netstandard1.6)'
+﻿/* Unmerged change from project 'Sodium.Core (netstandard1.6)'
 Before:
 using System;
 After:
@@ -88,14 +87,14 @@ namespace Sodium
         private void _ProtectKey()
         {
 #if NET461
-      ProtectedMemory.Protect(_privateKey, MemoryProtectionScope.SameProcess);
+            ProtectedMemory.Protect(_privateKey, MemoryProtectionScope.SameProcess);
 #endif
         }
 
         private void _UnprotectKey()
         {
 #if NET461
-      ProtectedMemory.Unprotect(_privateKey, MemoryProtectionScope.SameProcess);
+            ProtectedMemory.Unprotect(_privateKey, MemoryProtectionScope.SameProcess);
 #endif
         }
     }

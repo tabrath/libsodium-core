@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-
 using Sodium.Exceptions;
 
 namespace Sodium
@@ -73,19 +72,19 @@ namespace Sodium
                 Marshal.FreeHGlobal(hashStatePtr);
             }
 
-            override public void Initialize()
+            public override void Initialize()
             {
                 SodiumLibrary.crypto_generichash_init(hashStatePtr, key, key.Length, bytes);
             }
 
-            override protected void HashCore(byte[] array, int ibStart, int cbSize)
+            protected override void HashCore(byte[] array, int ibStart, int cbSize)
             {
                 byte[] subArray = new byte[cbSize];
                 Array.Copy(array, ibStart, subArray, 0, cbSize);
                 SodiumLibrary.crypto_generichash_update(hashStatePtr, subArray, cbSize);
             }
 
-            override protected byte[] HashFinal()
+            protected override byte[] HashFinal()
             {
                 byte[] buffer = new byte[bytes];
                 SodiumLibrary.crypto_generichash_final(hashStatePtr, buffer, bytes);

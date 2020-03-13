@@ -11,7 +11,7 @@ matrix:
       mono: none
     - os: osx
       osx_image: xcode9
-      dotnet: 2.1.300
+      dotnet: 2.2.401
       mono: none
 
 notifications:
@@ -35,4 +35,4 @@ install:
   - dotnet restore --disable-parallel -r $TRAVIS_OS_NAME-x64
 
 script:
-  - dotnet test test/Sodium.Tests/Sodium.Tests.csproj -f netcoreapp2.0
+  - dotnet test test/Sodium.Tests/Sodium.Tests.csproj -f netcoreapp2.2

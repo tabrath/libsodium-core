@@ -1,10 +1,12 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
+
 namespace Sodium
 {
     /// <summary>
     /// libsodium core information.
     /// </summary>
-    public static class SodiumCore
+    public static partial class SodiumCore
     {
         private static bool _isInit;
 
@@ -18,10 +20,30 @@ namespace Sodium
         /// <returns>An array of random bytes.</returns>
         public static byte[] GetRandomBytes(int count)
         {
-            var buffer = new byte[count];
-            SodiumLibrary.randombytes_buf(buffer, count);
+            var span = new Span<byte>(new byte[count]);
+            GetRandomBytes(span, count);
+            return span.ToArray();
+        }
 
-            return buffer;
+        /// <summary>Fills existing memory w/ random bytes</summary>
+        /// <param name="data">The memory to write to.</param>
+        public static void GetRandomBytes(Span<byte> data)
+        {
+            GetRandomBytes(data, data.Length);
+        }
+
+        /// <summary>Fills existing memory w/ random bytes</summary>
+        /// <param name="data">The memory to write to.</param>
+        /// <param name="count">The count of bytes to write.</param>
+        public static void GetRandomBytes(Span<byte> data, int count)
+        {
+            unsafe
+            {
+                fixed (byte* ptr = &data.GetPinnableReference())
+                {
+                    SodiumLibrary.randombytes_buf(ptr, count);
+                }
+            }
         }
 
         /// <summary>
