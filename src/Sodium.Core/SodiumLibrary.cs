@@ -79,6 +79,9 @@ namespace Sodium
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int crypto_pwhash(byte[] buffer, long bufferLen, byte[] password, long passwordLen, byte[] salt, long opsLimit, int memLimit, int alg);
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int crypto_pwhash_str_needs_rehash(byte[] buffer, long opsLimit, int memLimit);
+
         //crypto_pwhash_scryptsalsa208sha256_str
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int crypto_pwhash_scryptsalsa208sha256_str(byte[] buffer, byte[] password, long passwordLen, long opsLimit, int memLimit);
@@ -91,8 +94,9 @@ namespace Sodium
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int crypto_pwhash_scryptsalsa208sha256_str_verify(byte[] buffer, byte[] password, long passLength);
 
+        //crypto_pwhash_scryptsalsa208sha256_str_verify
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int crypto_pwhash_str_needs_rehash(byte[] buffer, long opsLimit, int memLimit);
+        internal static extern int crypto_pwhash_scryptsalsa208sha256_str_needs_rehash(byte[] buffer, long opsLimit, int memLimit);
 
         //crypto_sign_keypair
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]

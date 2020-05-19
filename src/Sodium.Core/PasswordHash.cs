@@ -504,6 +504,50 @@ namespace Sodium
             return ArgonPasswordNeedsRehash(Encoding.UTF8.GetBytes(password), opsLimit, memLimit);
         }
 
+        /// <summary>
+        /// Checks if the current SCrypt password hash needs rehashing.  Will return false
+        /// if the hash values don't match what is expected.
+        /// </summary>
+        /// <param name="password">Password that needs rehashing</param>
+        /// <param name="opsLimit">Expected opsLimit</param>
+        /// <param name="memLimit">Expected memLimit</param>
+        /// <returns>True if the hash has the expected ops and mem limits, false otherwise.</returns>
+        public static bool ScryptPasswordNeedsRehash(byte[] password, long opsLimit, int memLimit)
+        {
+            if (password == null)
+            {
+                throw new ArgumentNullException("password", "Password cannot be null");
+            }
+
+            SodiumCore.Init();
+
+            int status = SodiumLibrary.crypto_pwhash_scryptsalsa208sha256_str_needs_rehash(password, opsLimit, memLimit);
+
+            if (status == -1)
+            {
+                throw new InvalidSodiumPasswordString();
+            }
+
+            return status == 1;
+        }
+
+        public static bool ScryptPasswordNeedsRehash(byte[] password, Strength limit = Strength.Interactive)
+        {
+            var (opsLimit, memLimit) = GetScryptOpsAndMemoryLimit(limit);
+
+            return ScryptPasswordNeedsRehash(password, opsLimit, memLimit);
+        }
+
+        public static bool ScryptPasswordNeedsRehash(string password, Strength limit = Strength.Interactive)
+        {
+            return ScryptPasswordNeedsRehash(Encoding.UTF8.GetBytes(password), limit);
+        }
+
+        public static bool ScryptPasswordNeedsRehash(string password, long opsLimit, int memLimit)
+        {
+            return ScryptPasswordNeedsRehash(Encoding.UTF8.GetBytes(password), opsLimit, memLimit);
+        }
+
         private static (long opsLimit, int memLimit) GetArgonOpsAndMemoryLimit(StrengthArgon limit = StrengthArgon.Interactive)
         {
             int memLimit;
