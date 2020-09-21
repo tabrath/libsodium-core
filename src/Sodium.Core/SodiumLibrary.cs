@@ -205,6 +205,22 @@ namespace Sodium
         //crypto_secretbox_open_detached
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int crypto_secretbox_open_detached(byte[] buffer, byte[] cipherText, byte[] mac, long cipherTextLength, byte[] nonce, byte[] key);
+        
+        //crypto_secretbox_xchacha20poly1305_easy
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int crypto_secretbox_xchacha20poly1305_easy(byte[] buffer, byte[] message, long messageLength, byte[] nonce, byte[] key);
+
+        //crypto_secretbox_xchacha20poly1305_open_easy
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int crypto_secretbox_xchacha20poly1305_open_easy(byte[] buffer, byte[] cipherText, long cipherTextLength, byte[] nonce, byte[] key);
+
+        //crypto_secretbox_xchacha20poly1305_detached
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int crypto_secretbox_xchacha20poly1305_detached(byte[] buffer, byte[] mac, byte[] message, long messageLength, byte[] nonce, byte[] key);
+
+        //crypto_secretbox_xchacha20poly1305_open_detached
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int crypto_secretbox_xchacha20poly1305_open_detached(byte[] buffer, byte[] cipherText, byte[] mac, long cipherTextLength, byte[] nonce, byte[] key);
 
         //crypto_auth
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
