@@ -5,7 +5,7 @@ using Sodium.Exceptions;
 
 namespace Sodium
 {
-    /// <summary>Hashes passwords using the argon2i and scrypt algorithm</summary>
+    /// <summary>Hashes passwords using the Argon2id and scrypt algorithm</summary>
     public class PasswordHash
     {
         private const uint ARGON_STRBYTES = 128U;
@@ -37,9 +37,9 @@ namespace Sodium
         /// <summary>Represents available Argon algorithms</summary>
         public enum ArgonAlgorithm
         {
-            /// <summary>2I13, default Argon algorithm</summary>
+            /// <summary>Argon2i</summary>
             Argon_2I13 = 1,
-            /// <summary>2ID13 Argon algorithm</summary>
+            /// <summary>Argon2id algorithm, default Argon algorithm</summary>
             Argon_2ID13 = 2
         }
 
@@ -119,7 +119,7 @@ namespace Sodium
         /// <exception cref="SaltOutOfRangeException"></exception>
         /// <exception cref="OutOfMemoryException"></exception>
         public static byte[] ArgonHashBinary(byte[] password, byte[] salt, long opsLimit, int memLimit, long outputLength = ARGON_SALTBYTES,
-          ArgonAlgorithm alg = ArgonAlgorithm.Argon_2I13)
+          ArgonAlgorithm alg = ArgonAlgorithm.Argon_2ID13)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password), "Password cannot be null");
@@ -163,7 +163,7 @@ namespace Sodium
         /// <exception cref="SaltOutOfRangeException"></exception>
         /// <exception cref="OutOfMemoryException"></exception>
         public static byte[] ArgonHashBinary(string password, string salt, StrengthArgon limit = StrengthArgon.Interactive, long outputLength = ARGON_SALTBYTES,
-          ArgonAlgorithm alg = ArgonAlgorithm.Argon_2I13)
+          ArgonAlgorithm alg = ArgonAlgorithm.Argon_2ID13)
         {
             return ArgonHashBinary(Encoding.UTF8.GetBytes(password), Encoding.UTF8.GetBytes(salt), limit, outputLength, alg);
         }
@@ -180,7 +180,7 @@ namespace Sodium
         /// <exception cref="SaltOutOfRangeException"></exception>
         /// <exception cref="OutOfMemoryException"></exception>
         public static byte[] ArgonHashBinary(byte[] password, byte[] salt, StrengthArgon limit = StrengthArgon.Interactive, long outputLength = ARGON_SALTBYTES,
-          ArgonAlgorithm alg = ArgonAlgorithm.Argon_2I13)
+          ArgonAlgorithm alg = ArgonAlgorithm.Argon_2ID13)
         {
             var (opsLimit, memLimit) = GetArgonOpsAndMemoryLimit(limit);
 
