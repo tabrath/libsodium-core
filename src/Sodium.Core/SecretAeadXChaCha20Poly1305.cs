@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 
@@ -51,11 +51,6 @@ namespace Sodium
                 throw new NonceOutOfRangeException("nonce", (nonce == null) ? 0 : nonce.Length,
                   string.Format("nonce must be {0} bytes in length.", NPUBBYTES));
 
-            //validate the length of the additionalData
-            if (additionalData.Length > ABYTES || additionalData.Length < 0)
-                throw new AdditionalDataOutOfRangeException(
-                  string.Format("additionalData must be between {0} and {1} bytes in length.", 0, ABYTES));
-
             var cipher = new byte[message.Length + ABYTES];
             var bin = Marshal.AllocHGlobal(cipher.Length);
             long cipherLength;
@@ -107,11 +102,6 @@ namespace Sodium
             if (nonce == null || nonce.Length != NPUBBYTES)
                 throw new NonceOutOfRangeException("nonce", (nonce == null) ? 0 : nonce.Length,
                   string.Format("nonce must be {0} bytes in length.", NPUBBYTES));
-
-            //validate the length of the additionalData
-            if (additionalData.Length > ABYTES || additionalData.Length < 0)
-                throw new AdditionalDataOutOfRangeException(
-                  string.Format("additionalData must be between {0} and {1} bytes in length.", 0, ABYTES));
 
             var message = new byte[cipher.Length - ABYTES];
             var bin = Marshal.AllocHGlobal(message.Length);
