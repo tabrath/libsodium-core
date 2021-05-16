@@ -10,13 +10,13 @@ namespace Sodium
     public static class SecretAeadChaCha20Poly1305IETF
     {
         private const int KEYBYTES = 32;
-        private const int NPUBBYTES = 8;
+        private const int NPUBBYTES = 12;
         private const int ABYTES = 16;
 
         //TODO: we could implement a method which increments the nonce.
 
-        /// <summary>Generates a random 8 byte nonce.</summary>
-        /// <returns>Returns a byte array with 8 random bytes.</returns>
+        /// <summary>Generates a random 12 byte nonce.</summary>
+        /// <returns>Returns a byte array with 12 random bytes.</returns>
         public static byte[] GenerateNonce()
         {
             return SodiumCore.GetRandomBytes(NPUBBYTES);
@@ -26,7 +26,7 @@ namespace Sodium
         /// Encrypts a message with an authentication tag and additional data.
         /// </summary>
         /// <param name="message">The message to be encrypted.</param>
-        /// <param name="nonce">The 8 byte nonce.</param>
+        /// <param name="nonce">The 12 byte nonce.</param>
         /// <param name="key">The 32 byte key.</param>
         /// <param name="additionalData">The additional data; may be null, otherwise between 0 and 16 bytes.</param>
         /// <returns>The encrypted message with additional data.</returns>
@@ -84,7 +84,7 @@ namespace Sodium
         /// Decrypts a cipher with an authentication tag and additional data.
         /// </summary>
         /// <param name="cipher">The cipher to be decrypted.</param>
-        /// <param name="nonce">The 8 byte nonce.</param>
+        /// <param name="nonce">The 12 byte nonce.</param>
         /// <param name="key">The 32 byte key.</param>
         /// <param name="additionalData">The additional data; may be null, otherwise between 0 and 16 bytes.</param>
         /// <returns>The decrypted cipher.</returns>
